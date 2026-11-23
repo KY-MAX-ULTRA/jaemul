@@ -1,6 +1,24 @@
 <!DOCTYPE html>
 <html lang="ko"><head>
 <meta charset="utf-8">
+<script>
+/* 카톡 안(인앱 브라우저)에서 열리면 바깥 브라우저(삼성 인터넷·크롬·사파리)로 넘기기 (2026. 11. 23.)
+   kakaotalk://web/openExternal 은 카카오 공식 문서 기능이 아니라서, 막히면 아래 안내 띠를 보고 직접 옮기게 함 */
+(function () {
+  var ua = navigator.userAgent || "";
+  if (!/KAKAOTALK/i.test(ua)) return;
+  var tried = false;
+  try { tried = sessionStorage.getItem("hu-kk") === "1"; sessionStorage.setItem("hu-kk", "1"); } catch (e) {}
+  if (!tried) location.href = "kakaotalk://web/openExternal?url=" + encodeURIComponent(location.href);
+  document.addEventListener("DOMContentLoaded", function () {
+    var d = document.createElement("div");
+    d.id = "kakaoBar";
+    d.style.cssText = "position:sticky;top:0;z-index:9999;background:#fff3cd;color:#664d03;padding:12px 14px;font-size:15px;line-height:1.55;border-bottom:1px solid #e0c36a;text-align:center";
+    d.innerHTML = "바깥 브라우저(삼성 인터넷·크롬·사파리)로 여는 중입니다.<br>안 넘어가면 오른쪽 위 <b>⋮</b>(아이폰은 아래 <b>공유</b>) → <b>다른 브라우저로 열기</b>를 눌러 주세요.";
+    document.body.insertBefore(d, document.body.firstChild);
+  });
+})();
+</script>
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="theme-color" content="#2e7d32">
 <meta name="apple-mobile-web-app-capable" content="yes">
